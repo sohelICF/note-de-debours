@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -288,8 +289,15 @@
     background:#fbfbfd;border:1px solid var(--line);border-radius:8px;
     padding:14px 18px;font-size:12px;color:var(--muted);line-height:1.6;
   }
-  .notes summary{cursor:pointer;font-weight:700;color:var(--navy);}
-  .notes ul{margin:10px 0 0;padding-left:18px;}
+  .notes summary{cursor:pointer;font-weight:700;color:var(--navy);font-size:13.5px;}
+  .notes ul, .notes ol{margin:10px 0 0;padding-left:18px;}
+  .notes h4{
+    margin:20px 0 6px;font-size:12.5px;color:var(--navy);
+    text-transform:uppercase;letter-spacing:.3px;
+    border-bottom:1px solid var(--line);padding-bottom:5px;
+  }
+  .notes h4:first-of-type{margin-top:14px;}
+  .notes li{margin-bottom:6px;}
 
   .modal-overlay{
     display:none;
@@ -651,23 +659,46 @@
     </div><!-- /archiveCardBody -->
   </div>
 
-  <details class="notes no-print">
-    <summary>À propos de cette version interactive</summary>
+  <details class="notes no-print" open>
+    <summary>Mode d'emploi et règles d'utilisation</summary>
+
+    <h4>1. Comment remplir une note, étape par étape</h4>
+    <ol>
+      <li>Choisissez la <strong>société émettrice</strong> (celle qui fait la demande) puis la <strong>société destinataire</strong>. L'adresse du destinataire se remplit automatiquement.</li>
+      <li>Sélectionnez le <strong>type de demande</strong> : « Note de débours » ou « Demande de remboursement ». Ce choix est obligatoire.</li>
+      <li>Complétez, si nécessaire, le tableau « Détail de la créance » (HP ou CA, Payeur à l'origine, Période).</li>
+      <li>Dans « Nature et montant », choisissez une nature dans la liste et indiquez le montant correspondant. Ajoutez autant de lignes que nécessaire avec « + Ajouter une ligne ». Si vous choisissez « Autres », précisez la nature exacte dans le champ qui apparaît.</li>
+      <li>Cliquez sur <strong>« Étape 1 · Générer »</strong> pour obtenir la référence unique de la note. Faites-le en dernier, juste avant de générer le PDF, pour éviter de bloquer une référence que vous n'utiliserez pas.</li>
+      <li>Si besoin, ajoutez vos justificatifs (factures, preuves, etc.) dans « Pièces jointes » (PDF, JPG ou PNG uniquement).</li>
+      <li>Cliquez sur <strong>« Générer le PDF »</strong>. Le fichier est alors téléchargé, archivé, et envoyé dans le dossier réseau assigné à la société émettrice si vous en avez défini un (voir section 3).</li>
+      <li>Cliquez sur <strong>« Envoyer par e-mail »</strong> pour ouvrir un brouillon avec le bon destinataire et le bon objet, puis joignez-y le PDF téléchargé à l'étape précédente.</li>
+    </ol>
+
+    <h4>2. Règles à respecter</h4>
     <ul>
-      <li>Reproduit les formules du fichier Excel : sélection de la société (recherche dans l'onglet « Paramètres »), adresse du destinataire, mentions légales de pied de page (masquées pour les structures sans SIRET, comme dans le classeur d'origine), et la note d'exonération de TVA qui apparaît automatiquement quand la nature choisie est « Frais du groupement de moyen » (art. 256 C) ou « Transfert de Provisions - Mobilité Interne » (art. 261 B).</li>
-      <li>Le bouton « Générer » reproduit la macro <code>REFERENCE</code> (code société + « ND » + date du jour + compteur). Le fichier original vérifiait l'unicité dans un dossier réseau (R:\...) ; cela n'étant pas accessible depuis un navigateur, le compteur incrémente simplement à chaque génération pendant votre session.</li>
-      <li>« Générer le PDF » remplace les macros <code>EnregistrerPDF</code> / <code>ImprimerFeuilleNDD</code> : il produit un PDF complet — logo, note et pièces jointes — entièrement dans votre navigateur. Depuis cette version, la note n'est plus une simple capture du formulaire à l'écran : elle est recomposée dans une mise en page dédiée, plus proche d'un document professionnel (en-tête avec logo, bloc Émetteur/Destinataire, tableau Nature/Montant, total mis en valeur).</li>
-      <li>« Envoyer par e-mail » ouvre votre messagerie (comme <code>EnvoyerMailAvecPDF</code>) avec le destinataire et l'objet prêts, mais vous devrez joindre le PDF vous-même — un navigateur ne peut pas envoyer de pièce jointe automatiquement ni piloter Outlook.</li>
-      <li><strong>Pièces jointes</strong> — déposez vos justificatifs (PDF, JPG, PNG) dans la zone prévue, puis cliquez sur « Générer le PDF complet » : un seul fichier PDF est créé (la note en première page, suivie de chaque pièce jointe) et téléchargé automatiquement. Il ne reste plus qu'à le joindre à votre e-mail — la fusion se fait entièrement dans votre navigateur, aucun fichier n'est envoyé à un serveur.</li>
-      <li><strong>Archive des PDF</strong> — chaque PDF généré est automatiquement enregistré dans l'archive ci-dessous (référence, date, destinataire, taille), avec des boutons pour le retélécharger, le renvoyer par e-mail ou le supprimer plus tard. Cette archive est stockée localement dans votre navigateur : elle persiste si vous rouvrez ce même fichier HTML depuis le même ordinateur et le même navigateur, mais elle ne se synchronise pas ailleurs et peut être perdue si vous videz les données de navigation. Pour une archive d'entreprise partagée entre plusieurs personnes, il faudrait la relier à un espace de stockage commun (Google Drive, SharePoint, etc.) — dites-le-moi si c'est ce qu'il vous faut.</li>
-      <li><strong>Dossier d'archive local ou réseau, par société</strong> — dans le tableau prévu à cet effet, assignez (bouton « Choisir… », Chrome/Edge sur ordinateur) un dossier différent pour chaque société émettrice, y compris un lecteur réseau déjà connecté sur votre poste (ex. <code>Z:\Débours\ICF Habitat Social\...</code>). Chaque PDF généré est alors écrit dans le dossier assigné à la société émettrice choisie, en plus d'être proposé au téléchargement et gardé dans l'archive du navigateur. Le navigateur redemande ces dossiers à chaque ouverture du fichier (il ne garde pas cet accès en mémoire d'une session à l'autre, pour des raisons de sécurité). Non disponible sur Safari/Firefox ni sur mobile.</li>
-      <li><strong>Champs obligatoires</strong> — avant de générer le PDF, le formulaire vérifie que la société émettrice, la société destinataire, le <strong>type de demande</strong>, la référence et au moins une ligne « Nature + Montant » sont bien renseignés. S'il manque quelque chose, ou si la référence existe déjà, une fenêtre s'affiche avec le détail des problèmes et la correction à apporter pour chacun.</li>
-      <li><strong>Anti-doublon de référence</strong> — avant d'enregistrer, le formulaire vérifie que la référence indiquée n'existe pas déjà (dans l'archive du navigateur et dans le dossier assigné à la société émettrice). Si elle existe déjà, un message d'erreur s'affiche et rien n'est écrasé — il faut générer une nouvelle référence (bouton « Étape 1 »).</li>
-      <li><strong>SharePoint</strong> — pas encore branché : cela suppose une authentification Microsoft (Azure AD / Entra ID) que je ne peux pas improviser sans les informations de votre organisation. Voir le message ci-dessous pour le détail.</li>
-      <li>Dans le fichier d'origine, l'onglet « Paramètres » contient deux sociétés intitulées « AUBERGE DE MONTMARTRE » (une porte le code AUB, l'autre le code IMO). D'après les macros VBA, la seconde correspond en réalité à « SNCF IMMOBILIER » : c'est le nom utilisé ici pour éviter toute confusion.</li>
-      <li><strong>Nature</strong> — la liste ne propose plus les deux libellés automatiques « Loyer/Aide locataire perçu par... » et inclut désormais « Régularisation d'encaissement de loyer ». En choisissant « Autres », un champ de texte libre apparaît pour préciser la nature exacte de la demande ; c'est ce texte qui est alors utilisé dans le PDF et pour le total.</li>
-      <li>Les tableaux de saisie ont été simplifiés par rapport au classeur (qui mélangeait des lignes héritées d'un modèle de facture générique) ; vous pouvez ajouter ou retirer autant de lignes de « Nature / Montant » que nécessaire.</li>
-      <li><strong>Logos</strong> — le fichier Excel stockait un logo par société dans la colonne « LOGO » de l'onglet « Paramètres » (via la fonctionnalité récente « image dans une cellule » d'Excel), ce qui donnait une erreur <code>#VALUE!</code> dans les outils qui ne la lisent pas. Ces logos ont été retrouvés et intégrés ici. À votre demande, ICF HABITAT SOCIAL utilise désormais le logo générique SICF plutôt que son ancien logo propre. Il apparaît en haut du PDF généré.</li>
+      <li>Le <strong>type de demande</strong>, la société émettrice, la société destinataire, une référence, et au moins une ligne « Nature + Montant » sont <strong>obligatoires</strong> avant de pouvoir générer un PDF. S'il manque quelque chose, une fenêtre l'indique clairement.</li>
+      <li>Une <strong>référence ne doit jamais être réutilisée</strong> : le formulaire refuse de générer un PDF si la référence existe déjà (dans l'archive ou le dossier réseau assigné). En cas de blocage, cliquez de nouveau sur « Étape 1 · Générer » pour obtenir une référence différente.</li>
+      <li>Vérifiez toujours les informations avant de cliquer sur « Générer le PDF » : une fois le fichier créé, il faut recommencer une nouvelle note (avec une nouvelle référence) pour corriger une erreur, plutôt que de modifier le PDF a posteriori.</li>
+      <li>N'utilisez « Autres » qu'en dernier recours, et précisez toujours la nature exacte dans le champ prévu : un « Autres » laissé vide ou trop vague complique le suivi comptable.</li>
+      <li>Un montant doit être un nombre supérieur à 0 (utilisez la virgule, ex. <code>1250,50</code>).</li>
+    </ul>
+
+    <h4>3. Comment les PDF doivent être enregistrés</h4>
+    <ul>
+      <li>Chaque PDF est nommé automatiquement d'après sa référence (ex. <code>SABND230726ND01.pdf</code>). <strong>Ne renommez pas ce fichier</strong> : le nom est ce qui permet de le retrouver et d'éviter les doublons.</li>
+      <li>À chaque génération, le PDF est à la fois : <strong>téléchargé</strong> (dossier de téléchargement de votre navigateur), <strong>archivé</strong> dans la section « Archive des PDF générés » de cette page, et <strong>copié dans le dossier réseau</strong> assigné à la société émettrice, si vous en avez défini un.</li>
+      <li>Pour un archivage centralisé et fiable, assignez un dossier à chaque société émettrice dans le tableau de la section « Archive des PDF générés » (bouton « Choisir… »). C'est la méthode recommandée pour que toute l'équipe retrouve les mêmes fichiers.</li>
+      <li>Le navigateur redemandera ce dossier à chaque réouverture de la page (par sécurité, il ne garde pas cet accès en mémoire) — pensez à le réassigner en début de session si vous utilisez cette fonction.</li>
+      <li>L'archive intégrée à la page (téléchargements + historique visible dans « Archive des PDF générés ») reste propre à l'ordinateur et au navigateur utilisés : elle ne se synchronise pas automatiquement avec vos collègues. Le dossier réseau partagé reste donc la référence commune.</li>
+      <li>Conservez toujours le PDF téléchargé ou archivé comme preuve avant de l'envoyer par e-mail : la fonction « Envoyer par e-mail » ne joint pas le fichier automatiquement, vous devez l'attacher vous-même.</li>
+    </ul>
+
+    <h4>Informations complémentaires</h4>
+    <ul>
+      <li>Reproduit les formules du fichier Excel d'origine : recherche de société dans l'onglet « Paramètres », mentions légales de pied de page (masquées pour les structures sans SIRET), et note d'exonération de TVA automatique pour « Frais du groupement de moyen » (art. 256 C) et « Transfert de Provisions - Mobilité Interne » (art. 261 B).</li>
+      <li>La fusion des pièces jointes et la génération du PDF se font entièrement dans votre navigateur : aucun fichier n'est envoyé à un serveur.</li>
+      <li>SharePoint n'est pas encore connecté (cela nécessite une authentification Microsoft propre à votre organisation) ; le dossier réseau local reste la solution d'archivage centralisée disponible actuellement.</li>
+      <li>Dans le fichier Excel d'origine, l'onglet « Paramètres » contenait deux sociétés intitulées « AUBERGE DE MONTMARTRE » ; la seconde correspond en réalité à « SNCF IMMOBILIER » d'après les macros VBA — c'est ce nom qui est utilisé ici.</li>
     </ul>
   </details>
 
